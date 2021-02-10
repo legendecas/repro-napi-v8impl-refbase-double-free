@@ -51,26 +51,7 @@ class MyObject {
     status = napi_set_instance_data(
         env,
         obj,
-        [](napi_env env, void* data, void* hint) {
-          MyObject* obj = static_cast<MyObject*>(data);
-          napi_status status = napi_delete_reference(env, obj->wrapper_);
-          assert(status == napi_ok);
-
-          napi_value global, gc;
-          status = napi_get_global(env, &global);
-          assert(status == napi_ok);
-          status = napi_get_named_property(env, global, "gc_tick", &gc);
-          assert(status == napi_ok);
-          status = napi_call_function(env, global, gc, 0, nullptr, nullptr);
-          if (status == napi_pending_exception) {
-            // node v15.8.0 returns an napi_pending_exception, throw it anyway.
-            napi_value exp;
-            status = napi_get_and_clear_last_exception(env, &exp);
-            assert(status == napi_ok);
-            status = napi_fatal_exception(env, exp);
-          }
-          assert(status == napi_ok);
-        },
+        [](napi_env env, void* data, void* hint) {},
         nullptr);
     assert(status == napi_ok);
 

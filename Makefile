@@ -1,4 +1,4 @@
 all:
 	node -v
 	node-gyp rebuild
-	node --expose_gc index.j
+	node index.js
